@@ -6,7 +6,7 @@ import (
 )
 
 func main(){
-	// var fruit []string{}
+	// var fruit =  []string{}
 	// var fruit = []string{"apple","peach","guava","mango","banana","litchi"}
 	// fruit = append(fruit, "banana")
 	// fruit = append(fruit[1:])
