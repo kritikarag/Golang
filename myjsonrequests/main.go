@@ -9,7 +9,8 @@ import(
 
 func main(){
 	fmt.Println("Welcome to the web verb video - LCO")
-	performGetRequest()
+	//performGetRequest()
+	performPostRequest()
 }
 
 func performGetRequest(){
@@ -34,6 +35,27 @@ func performGetRequest(){
 
 	fmt.Println("Byte Count is: ",bytecount)
 	fmt.Println(responseString.String())
+
+	fmt.Println(string(content))
+}
+
+func performPostRequest(){
+	const myurl = "http://localhost:8000/post"
+
+	requestBody:= strings.NewReader(`
+		{
+			"name":"Kritika Rag",
+			"age":21,
+			"city":"Delhi"
+		}
+	`)
+	response ,err := http.Post(myurl,"application/json",requestBody)
+		
+	if err!=nil{
+		panic(err)
+	}
+	defer response.Body.Close()
+	content, _ := ioutil.ReadAll(response.Body)
 
 	fmt.Println(string(content))
 }
