@@ -2,6 +2,7 @@ go 1.20
 
 use (
 	./Projects
+	./Projects/book-management
 	./Projects/go-movies-crud-gin
 	./Projects/go-server
 )
