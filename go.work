@@ -5,4 +5,5 @@ use (
 	./Projects/book-management
 	./Projects/go-movies-crud-gin
 	./Projects/go-server
+	./Projects/task-management
 )
