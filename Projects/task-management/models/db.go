@@ -3,9 +3,9 @@ package models
 import (
 	"fmt"
 
-	//"github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	//_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 var DB *gorm.DB
@@ -17,17 +17,15 @@ func ConnectDatabase() (*gorm.DB, error) {
 	port := "3306"
 	dbname := "task_management"
 	URL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", user, pass, host, port, dbname)
-	//dsn := "user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open("mysql", URL)
-	//db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open("mysql", URL) 
 	if err != nil {
-		return nil, err
+		panic(err.Error())
 	}
 	DB = db
 	// Optional: If you want to see the SQL logs
 	// db.LogMode(true)
 
-	return db, nil
+	return db,nil
 }
 
 
