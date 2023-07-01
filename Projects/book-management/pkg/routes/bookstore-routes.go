@@ -2,7 +2,8 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/kritikarag/Golang/Projects/book-management/pkg/controllers"
+	"../controllers"
+	"github.com/kritikarag/golang/Projects/book-management/pkg/controllers"
 )
 
 func RegisterBookStoreRoutes(c *gin.Context){
