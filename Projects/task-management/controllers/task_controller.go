@@ -1,12 +1,10 @@
 package controllers
 
 import (
+	"net/http"
 	"task-management/models"
 	"time"
-	"net/http"
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
-	//"gin.com/gin/models"
 )
 
 type CreateTaskInput struct {
@@ -40,10 +38,11 @@ func CreateTask(c *gin.Context){
 
 func GetTaskById(c *gin.Context){
 	var task models.Task
+	c.Header("Content-Type", "application/json")
+	id := c.Param("id")
 	//id := c.Request.URL.Query().Get("id")
-	db := c.MustGet("db").(*gorm.DB)
-	//db := c.MustGet("db").(*gorm.DB)
-	if err:= db.Where("id = ?",c.Param("id")).First(&task).Error;err!=nil{
+	//db := c.MustGet("db").(*gorm.DB) 
+	if err:= models.DB.Where("id = ?",id).First(&task).Error;err!=nil{
 		c.JSON(http.StatusBadRequest,gin.H{"error":"Record not found!"})
 		return
 	}
@@ -54,7 +53,8 @@ func UpdateTask(c *gin.Context){
 
 	var task models.Task
 	
-	id:=c.Request.URL.Query().Get("id")
+	c.Header("Content-Type", "application/json")
+	id := c.Param("id")
 
 	if err:= models.DB.Where("id = ?",id).First(&task).Error;err!=nil{
 		c.JSON(http.StatusBadRequest,gin.H{"error":"Record not found!"})
@@ -78,15 +78,15 @@ func UpdateTask(c *gin.Context){
 }
 
 func DeleteTask(c *gin.Context) {
-	// Get model if exist
-	db := c.MustGet("db").(*gorm.DB)
+	c.Header("Content-Type", "application/json")
+	id := c.Param("id")
 	var task models.Task
-	if err := db.Where("id = ?", c.Param("id")).First(&task).Error; err != nil {
+	if err := models.DB.Where("id = ?", id).First(&task).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
 		return
 	}
 
-	db.Delete(&task)
+	models.DB.Delete(&task)
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }
