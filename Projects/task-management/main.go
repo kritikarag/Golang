@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"task-management/controllers"
 	"task-management/models"
 
@@ -18,9 +19,13 @@ func main() {
 	db.AutoMigrate(&models.Task{})
 	
 	r := gin.Default()
-	// r.Use(func(c *gin.Context) {
-	// 	c.Set("db", db)
-	// })
+	r.Use(func(c *gin.Context) {
+		c.Set("db", db)
+	})
+
+	r.GET("/", func(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"data": "hello world"})
+	})
 
 	r.GET("/tasks",controllers.GetTasks)
 	r.GET("/tasks/:id", controllers.GetTaskById)
