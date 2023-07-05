@@ -1,9 +1,12 @@
 package controllers
 
 import (
+	//"context"
+	//"fmt"
 	"net/http"
 	"task-management/models"
 	"time"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -89,4 +92,51 @@ func DeleteTask(c *gin.Context) {
 	models.DB.Delete(&task)
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+}
+
+func UpdateTaskName(c *gin.Context) {
+	taskID := c.Param("id")
+
+	type OneTask struct {
+		TaskName *string `json:"task_name"`
+	}
+
+	var task OneTask;
+
+	if err := c.ShouldBindJSON(&task); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()}) 
+		return
+	}
+
+	stmt, err := models.DB.DB().Prepare("UPDATE tasks SET task_name = ? WHERE id = ?")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}) 
+		return
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(task.TaskName, taskID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}) 
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Waiter updated successfully"})
+}
+
+func GetTasksByName(c *gin.Context) {
+	taskName := c.Params.ByName("task_name") 
+
+	var task_list []models.Task
+
+	var tasks []models.Task
+
+	models.DB.Find(&tasks)
+
+	for _,task:= range(tasks){
+		if (task.TaskName==taskName){
+			task_list = append(task_list, task)
+		}
+	} 
+	c.JSON(http.StatusOK,gin.H{"data": task_list})
 }

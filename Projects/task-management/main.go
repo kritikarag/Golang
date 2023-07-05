@@ -32,6 +32,8 @@ func main() {
 	r.POST("/tasks", controllers.CreateTask) 
 	r.PUT("/tasks/:id", controllers.UpdateTask) 
 	r.DELETE("/tasks/:id",controllers.DeleteTask)
+	r.PUT("/taskname/update/:id", controllers.UpdateTaskName)
+	r.GET("/taskname/update/:task_name", controllers.GetTasksByName)
 
 	fmt.Println("Starting Server at port no. 8084")
 
