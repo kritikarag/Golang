@@ -1,13 +1,14 @@
 import React from "react";
+import 'bootstrap/dist/css/bootstrap.css';
 //import logo from './logo.svg';
 import './App.css';
 import { Container } from 'semantic-ui-react';
-import TaskManagement from './task_management';
+import Tasks from './components/task';
 function App() {
   return (
     <div>
          <Container>
-          <TaskManagement/>
+          <Tasks/>
          </Container>
     </div>
     
